@@ -1,5 +1,4 @@
 defmodule WasherWeb.CarLive.FormComponent do
-  alias Washer.Branches.Branch
   use WasherWeb, :live_component
 
   alias Washer.Cars
@@ -156,7 +155,7 @@ defmodule WasherWeb.CarLive.FormComponent do
     <!-- Branch Selection -->
           <div class="space-y-2">
             <.input
-              field={@form[:branch_id]}
+              field={@form[:registered_at]}
               type="select"
               label="Registration Branch"
               options={@branches}

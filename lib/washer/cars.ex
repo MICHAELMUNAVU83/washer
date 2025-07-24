@@ -21,6 +21,12 @@ defmodule Washer.Cars do
     Repo.all(Car)
   end
 
+  def list_services_done_to_car(car_id) do
+    from(s in Washer.Services.Service, where: s.car_id == ^car_id)
+    |> Repo.all()
+    |> Repo.preload([:worker])
+  end
+
   @doc """
   Gets a single car.
 
@@ -35,7 +41,7 @@ defmodule Washer.Cars do
       ** (Ecto.NoResultsError)
 
   """
-  def get_car!(id), do: Repo.get!(Car, id)
+  def get_car!(id), do: Repo.get!(Car, id) |> Repo.preload([:branch])
 
   @doc """
   Creates a car.

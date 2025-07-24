@@ -223,13 +223,11 @@ defmodule WasherWeb.WorkerLive.FormComponent do
 
   defp save_worker(socket, :edit, worker_params) do
     case Workers.update_worker(socket.assigns.worker, worker_params) do
-      {:ok, worker} ->
-        notify_parent({:saved, worker})
-
+      {:ok, _worker} ->
         {:noreply,
          socket
          |> put_flash(:info, "Worker updated successfully")
-         |> push_patch(to: socket.assigns.patch)}
+         |> push_redirect(to: socket.assigns.patch)}
 
       {:error, %Ecto.Changeset{} = changeset} ->
         {:noreply, assign(socket, form: to_form(changeset))}
@@ -238,13 +236,11 @@ defmodule WasherWeb.WorkerLive.FormComponent do
 
   defp save_worker(socket, :new, worker_params) do
     case Workers.create_worker(worker_params) do
-      {:ok, worker} ->
-        notify_parent({:saved, worker})
-
+      {:ok, _worker} ->
         {:noreply,
          socket
          |> put_flash(:info, "Worker created successfully")
-         |> push_patch(to: socket.assigns.patch)}
+         |> push_redirect(to: socket.assigns.patch)}
 
       {:error, %Ecto.Changeset{} = changeset} ->
         {:noreply, assign(socket, form: to_form(changeset))}

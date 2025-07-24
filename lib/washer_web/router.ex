@@ -72,6 +72,7 @@ defmodule WasherWeb.Router do
 
     live_session :current_user,
       on_mount: [{WasherWeb.UserAuth, :mount_current_user}] do
+      live "/dashboard", DashboardLive.Index, :index
       live "/branches", BranchLive.Index, :index
       live "/branches/new", BranchLive.Index, :new
       live "/branches/:id/edit", BranchLive.Index, :edit
@@ -89,6 +90,8 @@ defmodule WasherWeb.Router do
       live "/cars", CarLive.Index, :index
       live "/cars/new", CarLive.Index, :new
       live "/cars/:id/edit", CarLive.Index, :edit
+      live "/cars/:id/new_service", CarLive.Show, :new_service
+      live "/cars/:id/edit_service/:service_id", CarLive.Show, :edit_service
 
       live "/cars/:id", CarLive.Show, :show
       live "/cars/:id/show/edit", CarLive.Show, :edit

@@ -22,6 +22,11 @@ defmodule Washer.Workers do
     |> Repo.preload(:branch)
   end
 
+  def list_workers_by_branch_for_select(branch_id) do
+    from(w in Worker, where: w.branch_id == ^branch_id, select: {w.name, w.id})
+    |> Repo.all()
+  end
+
   @doc """
   Gets a single worker.
 
@@ -36,7 +41,15 @@ defmodule Washer.Workers do
       ** (Ecto.NoResultsError)
 
   """
-  def get_worker!(id), do: Repo.get!(Worker, id)
+  def get_worker!(id), do: Repo.get!(Worker, id) |> Repo.preload(:branch)
+
+  def services_for_worker(worker_id) do
+    from(s in Washer.Services.Service,
+      where: s.worker_id == ^worker_id,
+      preload: [:car, :branch, :user]
+    )
+    |> Repo.all()
+  end
 
   @doc """
   Creates a worker.

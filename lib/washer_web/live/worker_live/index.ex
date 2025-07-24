@@ -135,7 +135,7 @@ defmodule WasherWeb.WorkerLive.Index do
               </svg>
             </div>
             <div :if={worker.branch}>
-              <p class="font-medium text-gray-900">{worker.branch.name}</p>
+              <p class="font-medium text-gray-900">{worker.branch && worker.branch.name}</p>
               <p class="text-xs text-gray-500">{worker.branch.location}</p>
             </div>
           </div>

@@ -27,6 +27,34 @@ defmodule Washer.Branches do
     |> Enum.map(fn branch -> {branch.name, branch.id} end)
   end
 
+  def list_branch_workers(branch_id) do
+    from(w in Washer.Workers.Worker,
+      where: w.branch_id == ^branch_id,
+      order_by: [asc: w.name]
+    )
+    |> Repo.all()
+  end
+
+  def list_branch_cars(branch_id) do
+    from(c in Washer.Cars.Car,
+      where: c.registered_at == ^branch_id,
+      order_by: [asc: c.name]
+    )
+    |> Repo.all()
+  end
+
+  def workers_count(branch_id) do
+    from(w in Washer.Workers.Worker, where: w.branch_id == ^branch_id)
+    |> Repo.aggregate(:count, :id)
+  end
+
+  def cars_count(branch_id) do
+    from(c in Washer.Cars.Car, where: c.registered_at == ^branch_id)
+    |> Repo.aggregate(:count, :id)
+  end
+
+  
+
   @doc """
   Gets a single branch.
 
