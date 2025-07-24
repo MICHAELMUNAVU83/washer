@@ -1,0 +1,10 @@
+<main>
+  <.flash_group flash={@flash} />
+
+  <div class="h-screen flex">
+    <.sidebar current_page={@current_page} />
+    <div class="flex-1 ml-64 overflow-y-auto p-8">
+      {@inner_content}
+    </div>
+  </div>
+</main>
