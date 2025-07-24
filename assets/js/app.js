@@ -112,7 +112,7 @@ Hooks.DashboardCharts = {
             borderWidth: 1,
             callbacks: {
               label: function (context) {
-                return "Revenue: $" + context.parsed.y.toFixed(2);
+                return "Revenue: KES " + context.parsed.y.toFixed(2);
               },
             },
           },
@@ -135,7 +135,7 @@ Hooks.DashboardCharts = {
             ticks: {
               color: "#6B7280",
               callback: function (value) {
-                return "$" + value.toFixed(0);
+                return "KES " + value.toFixed(0);
               },
             },
           },
@@ -238,7 +238,7 @@ Hooks.DashboardCharts = {
             yAxisID: "y",
           },
           {
-            label: "Amount ($)",
+            label: "Amount (KES)",
             data: data.map((item) => item.amount),
             backgroundColor: [
               "rgba(16, 185, 129, 0.3)",

@@ -14,6 +14,8 @@ defmodule Washer.Analytics do
     # Current period stats
     current_stats = get_period_stats(start_date, end_date)
 
+    IO.inspect(current_stats, label: "Current Stats")
+
     # Previous period for comparison
     period_length = Date.diff(end_date, start_date)
     prev_end_date = Date.add(start_date, -1)
@@ -44,7 +46,8 @@ defmodule Washer.Analytics do
     query =
       from b in Branch,
         left_join: s in Service,
-        on: s.branch_id == b.id and s.date >= ^start_date and s.date <= ^end_date,
+        on: s.branch_id == b.id,
+        # on: s.branch_id == b.id and s.date >= ^start_date and s.date <= ^end_date,
         left_join: w in Worker,
         on: w.branch_id == b.id,
         left_join: c in Car,
@@ -78,7 +81,8 @@ defmodule Washer.Analytics do
         join: b in Branch,
         on: w.branch_id == b.id,
         left_join: s in Service,
-        on: s.worker_id == w.id and s.date >= ^start_date and s.date <= ^end_date,
+        on: s.worker_id == w.id,
+        # on: s.worker_id == w.id and s.date >= ^start_date and s.date <= ^end_date,
         group_by: [w.id, w.name, b.name],
         select: %{
           id: w.id,
@@ -105,7 +109,7 @@ defmodule Washer.Analytics do
   def get_revenue_chart_data({start_date, end_date}) do
     query =
       from s in Service,
-        where: s.date >= ^start_date and s.date <= ^end_date,
+        # where: s.date >= ^start_date and s.date <= ^end_date,
         group_by: s.date,
         select: %{
           date: s.date,
@@ -129,7 +133,7 @@ defmodule Washer.Analytics do
     # Get all services in date range
     services =
       from s in Service,
-        where: s.date >= ^start_date and s.date <= ^end_date,
+        # where: s.date >= ^start_date and s.date <= ^end_date,
         select: s.types
 
     Repo.all(services)
@@ -153,7 +157,7 @@ defmodule Washer.Analytics do
   def get_payment_status_data({start_date, end_date}) do
     query =
       from s in Service,
-        where: s.date >= ^start_date and s.date <= ^end_date,
+        # where: s.date >= ^start_date and s.date <= ^end_date,
         group_by: s.payment_completed,
         select: %{
           status: s.payment_completed,
@@ -188,7 +192,7 @@ defmodule Washer.Analytics do
   defp get_period_stats(start_date, end_date) do
     query =
       from s in Service,
-        where: s.date >= ^start_date and s.date <= ^end_date,
+        # where: s.date >= ^start_date and s.date <= ^end_date,
         select: %{
           total_revenue: coalesce(sum(fragment("CAST(? AS DECIMAL)", s.total_amount)), 0),
           total_services: count(s.id),
